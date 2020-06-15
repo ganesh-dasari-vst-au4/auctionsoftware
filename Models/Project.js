@@ -1,33 +1,22 @@
 const db = require("../database");
 const Sequelize = require("sequelize");
+const User = require("./User");
+const Category = require("./Category");
 
 let Project = db.define(
   "project",
   {
     p_name: {
       type: Sequelize.STRING,
-      notNull: true,
     },
-    user: {
-      type: Sequelize.INTEGER,
-      references: {
-        model: "users",
-        key: "id",
-      },
-    },
-    category: {
-      type: Sequelize.INTEGER,
-      references: {
-        model: "categories",
-        key: "id",
-      },
-    },
-    created_at: { type: Sequelize.DATE, defaultValue: Sequelize.NOW },
   },
   {
-    timestamps: false,
+    timestamps: true,
   }
 );
+
+Project.belongsTo(User, { foreignKey: "user_id" });
+Project.belongsTo(Category, { foreignKey: "cid" });
 
 db.sync().then((res) => {
   console.log("table DB is created", res);
