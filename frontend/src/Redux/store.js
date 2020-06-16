@@ -5,12 +5,17 @@ let inState = {
   projects: [],
   items: [],
   splice: 0,
+  loggedIn: "",
 };
 
 const appReducer = (state = inState, action) => {
   let copy = JSON.parse(JSON.stringify(state));
 
   switch (action.type) {
+    case "login":
+      copy.loggedIn = action.payload;
+      return copy;
+
     case "list":
       copy.projects = action.payload.sort(function (a, b) {
         return new Date(b.createdAt) - new Date(a.createdAt);
@@ -18,6 +23,10 @@ const appReducer = (state = inState, action) => {
       copy.items = [];
       copy.items.push(copy.projects[copy.splice]);
       copy.items.push(copy.projects[copy.splice + 1]);
+      return copy;
+
+    case "logout":
+      copy.loggedIn = "";
       return copy;
 
     case "sort":

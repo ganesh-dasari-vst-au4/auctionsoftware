@@ -1,17 +1,21 @@
 import { connect } from "react-redux";
 import React, { Fragment } from "react";
-import axios from "axios";
+import { Redirect, Link } from "react-router-dom";
 
 class List extends React.Component {
   handleSort = (e) => {
     this.props.dispatch({ type: "sort", payload: e.target.value });
   };
+
   render() {
-    let items = this.props.items;
+    if (!this.props.loggedIn) {
+      return <Redirect to="/login" />;
+    }
+    let items = this.props.projects;
     return (
       <Fragment>
         <div className="w-100 mt-5" style={{ height: "81.5vh" }}>
-          <div className="select mx-auto w-25 pt-4 pb-4">
+          <div className="select mx-auto w-25 py-3">
             <label>Sort By</label>
             <select
               className="form-control"
@@ -26,7 +30,7 @@ class List extends React.Component {
             </select>
           </div>
 
-          <div className="w-75 mx-auto mt-5 table-responsive">
+          <div className="w-75 mx-auto my-5 table-responsive">
             <table className="table table-striped">
               <thead>
                 <tr className="table-primary">
@@ -49,6 +53,8 @@ class List extends React.Component {
                 ) : (
                   <tr>
                     <td>No Projects</td>
+                    <td>No Projects</td>
+                    <td>No Projects</td>
                   </tr>
                 )}
               </tbody>
@@ -61,7 +67,7 @@ class List extends React.Component {
 }
 
 const fromStore = (state) => {
-  return { items: state.items };
+  return { projects: state.projects, loggedIn: state.loggedIn };
 };
 
 export default connect(fromStore)(List);

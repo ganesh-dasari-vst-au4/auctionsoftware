@@ -4,10 +4,12 @@ import "./App.css";
 import { connect } from "react-redux";
 import Nav from "./Component/Nav";
 import List from "./Component/List";
+import Login from "./Component/Login";
 import axios from "axios";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 class App extends React.Component {
-  componentWillMount = () => {
+  componentDidMount = () => {
     axios
       .get("http://localhost:3010/list")
       .then((res) => {
@@ -21,9 +23,17 @@ class App extends React.Component {
   render() {
     return (
       <Fragment>
-        <div className="App container-fluid">
-          <Nav />
-          <List />
+        <div className="App container-fluid" style={{ height: "100vh" }}>
+          <BrowserRouter>
+            <Nav />
+
+            <Switch>
+              <Route exact path="/" component={List} />
+
+              <Route path="/home" component={List} />
+              <Route path="/login" component={Login} />
+            </Switch>
+          </BrowserRouter>
         </div>
       </Fragment>
     );

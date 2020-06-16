@@ -1,11 +1,8 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
+import { Redirect, Link } from "react-router-dom";
 
 class Nav extends React.Component {
-  handleChange = (e) => {
-    this.setState({ search: e.target.value });
-  };
-
   handleLogout = () => {
     this.props.dispatch({ type: "logout" });
   };
@@ -17,26 +14,10 @@ class Nav extends React.Component {
             className="row  nav p-0 my-auto align-items-center"
             style={{ height: "4rem" }}
           >
-            <div className="col-md-4 ">
-              <input
-                className="float-left ml-2 form-control w-50"
-                type="text"
-                placeholder="search"
-                value={this.state.search}
-                onChange={(event) => {
-                  this.handleChange(event);
-                }}
-              />
-              <button
-                className="float-left ml-2 btn btn-primary"
-                onClick={() => {
-                  this.handleSend();
-                }}
-              >
-                Search
-              </button>
+            <div className="col-md-3">
+              <h3>{this.props.loggedIn.user.u_name}</h3>
             </div>
-            <div className="col-md-5 p-0 ">
+            <div className="col-md-6 p-0 text-center ">
               <h3 className="mx-auto " style={{ color: "#F9F9F9" }}>
                 Auction
               </h3>
@@ -72,7 +53,7 @@ class Nav extends React.Component {
 }
 
 const fromStore = (state) => {
-  return state;
+  return { loggedIn: state.loggedIn };
 };
 
 export default connect(fromStore)(Nav);

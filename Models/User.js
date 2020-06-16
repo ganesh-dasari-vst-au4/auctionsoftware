@@ -8,6 +8,10 @@ let User = db.define(
       type: Sequelize.STRING,
       notNull: true,
     },
+    password: {
+      type: Sequelize.STRING,
+      notNull: true,
+    },
   },
   { timestamps: false }
 );
